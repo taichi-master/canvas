@@ -1,4 +1,5 @@
 // Hold application secret and config
 module.exports = {
-    secret: 'asfas;lfdasdfjasfk;aslkfja'
-};
+  secret: 'asfas;lfdasdfjasfk;aslkfja',
+  dbFile: 'appDB'
+}

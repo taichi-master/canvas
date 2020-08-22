@@ -122,6 +122,7 @@
     "jwt-simple": "^0.5.6",
     "mongoose": "^5.10.0",
     "morgan": "^1.10.0",
+    "node-json-db": "^1.1.0",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",

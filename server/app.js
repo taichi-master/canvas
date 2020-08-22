@@ -5,7 +5,7 @@ const express = require( 'express' ),
       favicon = require( 'serve-favicon' ),
       bodyParser = require( 'body-parser' ),
       logger = require( 'morgan' ),
-      mongoose = require( 'mongoose' ),
+      // mongoose = require( 'mongoose' ),
       app = express()
 
 const pkg = require( '../package.json' ),
@@ -18,7 +18,7 @@ const pkg = require( '../package.json' ),
       isDev = process.env.NODE_ENV === 'development'
 
 // DB Setup
-mongoose.connect( 'mongodb://192.168.1.6:27017/pacListings', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true } )
+// mongoose.connect( 'mongodb://192.168.1.6:27017/pacListings', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true } )
 
 // React and Redux.
 const React = require( 'react' ),

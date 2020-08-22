@@ -12,21 +12,17 @@ function tokenForUser ( user ) {
 exports.signin = function ( req, res, next ) {
   // User has already had their email and password auth'd
   // We just need to give them a token
-  console.log( req.user )
 
   console.log( '+++ signin', req.user.email, req.user.password )
   
   // const obj = {...req.user._doc, token: tokenForUser(req.user), id: req.user.id};
   // const { _id, __v, ...user } = obj;
-  console.log( req.user )
 
   const user = req.user._doc
 
-  console.log( user )
 
   user.id = req.user.id
   user.token = tokenForUser( req.user )
-  console.log( user )
 
   res.send( user )
 }
