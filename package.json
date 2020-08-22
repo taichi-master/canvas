@@ -1,7 +1,7 @@
 {
   "name": "auth",
   "version": "1.0.0",
-  "description": "React Boilerplate",
+  "description": "User Authentication Example",
   "main": "index.js",
   "cfg": {
     "name": "React",
@@ -12,33 +12,32 @@
       },
       {
         "name": "Admin",
-        "url": "/admin"
+        "url": "/admin",
+        "auth-required": true
       },
       {
         "name": "About",
         "url": "/about"
+      },
+      {
+        "name": "Sign Out",
+        "url": "/signout",
+        "auth-required": true
+      },
+      {
+        "name": "Sign In",
+        "url": "/signin"
+      },
+      {
+        "name": "Sign Up",
+        "url": "/signup",
+        "auth-required": false
       }
     ],
     "footLinks": [
       {
         "name": "Auth v1.0.0",
         "url": "/about"
-      },
-      {
-        "name": "Disclaimer",
-        "url": "/disclaimer"
-      },
-      {
-        "name": "Support",
-        "url": "/support"
-      },
-      {
-        "name": "Feedback",
-        "url": "/feedback"
-      },
-      {
-        "name": "Contact us",
-        "url": "/contact"
       }
     ],
     "initialState": {

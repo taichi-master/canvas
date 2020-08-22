@@ -6,74 +6,73 @@ import * as actions from 'models/actions'
 
 class SignUp extends React.PureComponent {
 
-  renderField (field) {
+  renderField ( field ) {
     // field.type || (field.type = 'text');
     return (
       <div className="control-group">
-        <label>{field.label}</label>
+        <label>{ field.label }</label>
         <input
-          type={field.type}
-          {...field.input}
+          type={ field.type }
+          { ...field.input }
         />
         {
           field.meta.touched ? field.meta.error : null
         }
       </div>
-    );
+    )
   }
 
   renderAlert () {
-    if (this.props.errorMessage) {
+    if ( this.props.errorMessage ) {
       return (
         <div>
-          <strong>Oops!</strong> {this.props.errorMessage}
+          <strong>Oops!</strong> { this.props.errorMessage }
         </div>
-      );
+      )
     }
   }
 
-  onSubmit = ({ email, password }) => {
-    this.props.signupUser({email, password}, () => {
-      this.props.history.push(`/account`);
-    });
+  onSubmit = ( { email, password } ) => {
+    this.props.signupUser( { email, password }, () => {
+      this.props.history.push( '/' )
+    } )
   }
 
   render () {
     // const { handleSubmit, fields: { email, password } } = this.props;
-    const { handleSubmit } = this.props;
+    const { handleSubmit } = this.props
+
     return (
       <div className="sign-up">
         <h1>Register for New User</h1>
-        <form onSubmit={handleSubmit(this.onSubmit)}>
-          <Field label="Email" name="email" component={this.renderField} type="text"/>
-          <Field label="Password" name="password" component={this.renderField} type="password"/>
-          <Field label="Confirm Password" name="passwordConfirm" component={this.renderField} type="password"/>
+        <form onSubmit={ handleSubmit( this.onSubmit ) }>
+          <Field label="Email" name="email" component={ this.renderField } type="text" />
+          <Field label="Password" name="password" component={ this.renderField } type="password" />
+          <Field label="Confirm Password" name="passwordConfirm" component={ this.renderField } type="password" />
           {
             this.renderAlert()
           }
           <button action="submit">Submit</button>
         </form>
       </div>
-    );
+    )
   }
 }
 
-function validate (values, props) {
+function validate ( values, props ) {
   const errors = {}
-  if (values.password !== values.passwordConfirm) {
-    errors.passowrd = "Passwords must match";
-  }
-  return errors;
+
+  return errors
 }
 
-SignUp = reduxForm({
+SignUp = reduxForm( {
   form: 'SignUpForm',
   enableReinitialize: true,
   validate
-})(SignUp);
+} )( SignUp )
 
-SignUp = connect(({ auth }) => ({
+SignUp = connect( ( { auth } ) => ( {
   errorMessage: auth.error
-}), actions)(SignUp);
+} ), actions )( SignUp )
 
-export default SignUp;
+export default SignUp

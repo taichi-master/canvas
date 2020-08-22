@@ -1,2 +1,5 @@
+export const ROOT_URL = '/api/auth'
+export * from './sign-in'
+export * from './sign-up'
 export * from './getCommentsByPost'
 export * from './getPostsByUser'

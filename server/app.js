@@ -5,6 +5,7 @@ const express = require( 'express' ),
       favicon = require( 'serve-favicon' ),
       bodyParser = require( 'body-parser' ),
       logger = require( 'morgan' ),
+      mongoose = require( 'mongoose' ),
       app = express()
 
 const pkg = require( '../package.json' ),
@@ -15,6 +16,9 @@ const pkg = require( '../package.json' ),
         'main.css': 'main.css'
       },
       isDev = process.env.NODE_ENV === 'development'
+
+// DB Setup
+mongoose.connect( 'mongodb://192.168.1.6:27017/pacListings', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true } )
 
 // React and Redux.
 const React = require( 'react' ),
@@ -65,8 +69,8 @@ function setRoutes ( app ) {
   app.use( logger( 'dev' ) )
 
   // REST API
-  app.use('/api/auth', require('./api/auth'));
-  app.use('/api/user', require('./api/auth/user'));
+  app.use( '/api/auth', require( './api/auth' ) )
+  app.use( '/api/user', require( './api/auth/user' ) )
   app.enable( 'trust proxy' )
 
   // main

@@ -14,6 +14,8 @@ import SignIn from 'components/auth/SignIn'
 import SignOut from 'components/auth/SignOut'
 import RequireAuth from 'components/auth/RequireAuth'
 
+import { LastLocationProvider } from 'react-router-last-location'
+
 const About = Loadable( {
   loader: () => import( 'views/About' ),
   loading: Loading
@@ -23,17 +25,17 @@ if ( module.hot )
   setConfig( { logLevel: 'no-errors-please' } )
 
 const App = () => (
-  <>
+  <LastLocationProvider>
     <header>
       <NavBar />
     </header>
     <article className="main-content">
       <Switch>
         <Route path="/" exact component={ Home } />
-        <Route path="/signup" component={SignUp}/>
-        <Route path="/signin" component={SignIn}/>
-        <Route path="/signout" component={SignOut}/>
-        <Route path="/admin" component={ RequireAuth(Admin) } />
+        <Route path="/signup" component={ SignUp } />
+        <Route path="/signin" component={ SignIn } />
+        <Route path="/signout" component={ SignOut } />
+        <Route path="/admin" component={ RequireAuth( Admin ) } />
         <Route path="/about" component={ About } />
         <Route component={ NoMatch } />
       </Switch>
@@ -44,7 +46,7 @@ const App = () => (
         <div className="clear"></div>
       </div>
     </footer>
-  </>
+  </LastLocationProvider>
 )
 
 export default module.hot ? hot( module )( App ) : App

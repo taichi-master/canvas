@@ -1,5 +1,7 @@
 import React from 'react'
 
+const pkg = require( "package.json" )
+
 // console.log( 'load About' )
 
 // export default class About extends React.PureComponent {
@@ -22,8 +24,8 @@ import React from 'react'
 
 const About = () => (
   <div className="about">
-    <h1>About...</h1>
-    <h1>Lazy Loading</h1>
+    <h1>About <span>{ pkg.name }</span></h1>
+    <h1>Lazy Loading Page</h1>
   </div>
 )
 
