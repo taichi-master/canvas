@@ -6,9 +6,13 @@ import NavBar from 'components/nav-bar'
 import FootLinks from 'components/foot-links'
 import Loading from 'components/loading'
 import Home from 'views/Home'
-import Hooks from 'views/Hooks'
-import Lifecycle from 'views/Lifecycle'
+import Admin from 'views/Admin'
 import NoMatch from 'views/404'
+
+import SignUp from 'components/auth/SignUp'
+import SignIn from 'components/auth/SignIn'
+import SignOut from 'components/auth/SignOut'
+import RequireAuth from 'components/auth/RequireAuth'
 
 const About = Loadable( {
   loader: () => import( 'views/About' ),
@@ -26,8 +30,10 @@ const App = () => (
     <article className="main-content">
       <Switch>
         <Route path="/" exact component={ Home } />
-        <Route path="/hooks" component={ Hooks } />
-        <Route path="/lifecycle" component={ Lifecycle } />
+        <Route path="/signup" component={SignUp}/>
+        <Route path="/signin" component={SignIn}/>
+        <Route path="/signout" component={SignOut}/>
+        <Route path="/admin" component={ RequireAuth(Admin) } />
         <Route path="/about" component={ About } />
         <Route component={ NoMatch } />
       </Switch>

@@ -1,3 +1,7 @@
+export const AUTH_USER = Symbol('AUTH_USER');
+export const UNAUTH_USER = Symbol('UNAUTH_USER');
+export const AUTH_ERROR = Symbol('AUTH_ERROR');
+
 export const SET_YEAR = Symbol( 'SET_YEAR' )
 
 export const GET_POSTS_BY_USER = Symbol( 'GET_POSTS_BY_USER' )
