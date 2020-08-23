@@ -69,7 +69,7 @@ class SignIn extends React.PureComponent {
           }
           <button action="submit">Sign In</button>
           <p>or</p>
-          <Link to="/signup">Sign Out</Link>        
+          <Link to="/signup">Sign Up</Link>        
         </form>
       </div>
     )

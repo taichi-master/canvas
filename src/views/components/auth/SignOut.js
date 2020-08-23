@@ -5,8 +5,8 @@ import { Field, reduxForm } from 'redux-form'
 import * as actions from 'models/actions'
 
 class SignOut extends React.PureComponent {
-  componentWillMount() {
-    this.props.signoutUser();
+  componentWillMount () {
+    this.props.signoutUser()
   }
   
   render () {
@@ -16,4 +16,4 @@ class SignOut extends React.PureComponent {
   }
 }
 
-export default connect(null, actions)(SignOut);
+export default connect( null, actions )( SignOut )

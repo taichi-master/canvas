@@ -6,7 +6,7 @@ import NavBar from 'components/nav-bar'
 import FootLinks from 'components/foot-links'
 import Loading from 'components/loading'
 import Home from 'views/Home'
-import Admin from 'views/Admin'
+import Canvas from 'views/Canvas'
 import NoMatch from 'views/404'
 
 import SignUp from 'components/auth/SignUp'
@@ -35,7 +35,8 @@ const App = () => (
         <Route path="/signup" component={ SignUp } />
         <Route path="/signin" component={ SignIn } />
         <Route path="/signout" component={ SignOut } />
-        <Route path="/admin" component={ RequireAuth( Admin ) } />
+        <Route path="/canvas" component={ Canvas } />
+        { /* <Route path="/canvas" component={ RequireAuth( Canvas ) } /> */ }
         <Route path="/about" component={ About } />
         <Route component={ NoMatch } />
       </Switch>

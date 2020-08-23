@@ -11,8 +11,8 @@
         "url": "/"
       },
       {
-        "name": "Admin",
-        "url": "/admin",
+        "name": "Canvas",
+        "url": "/canvas",
         "auth-required": true
       },
       {

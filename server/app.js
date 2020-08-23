@@ -56,6 +56,7 @@ function createPage ( pkg, style, initialState, appHtml ) {
     </html>
   `
 }
+//  <script src="/js/canvas.js"></script>
 
 // {/* <script src="/${dist['manifest.js']}"></script> */}
 
