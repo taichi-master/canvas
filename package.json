@@ -1,7 +1,7 @@
 {
-  "name": "auth",
+  "name": "canvas",
   "version": "1.0.0",
-  "description": "User Authentication Example",
+  "description": "Web-Based Drawing Application Based on React-Starter Project",
   "main": "index.js",
   "cfg": {
     "name": "React",
@@ -36,7 +36,7 @@
     ],
     "footLinks": [
       {
-        "name": "Auth v1.0.0",
+        "name": "Canvas v1.0.0",
         "url": "/about"
       }
     ],
