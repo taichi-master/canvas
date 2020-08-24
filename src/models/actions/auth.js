@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 // import * as types from 'models/actionTypes'
 import { AUTH_USER, UNAUTH_USER, AUTH_ERROR, SET_USER, UPDATE_USER, FETCH_USER, SIGN_IN, SIGN_UP } from 'models/action-types'
 

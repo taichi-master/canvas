@@ -35,8 +35,8 @@ const App = () => (
         <Route path="/signup" component={ SignUp } />
         <Route path="/signin" component={ SignIn } />
         <Route path="/signout" component={ SignOut } />
-        <Route path="/canvas" component={ Canvas } />
-        { /* <Route path="/canvas" component={ RequireAuth( Canvas ) } /> */ }
+        <Route path="/canvas/:id?" component={ Canvas } />
+        { /* <Route path="/canvas/id:?" component={ RequireAuth( Canvas ) } /> */ }
         <Route path="/about" component={ About } />
         <Route component={ NoMatch } />
       </Switch>

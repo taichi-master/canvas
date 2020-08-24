@@ -1,7 +1,7 @@
-Canvas -- A Web-Based Drawing Application Based on React-Starter Project
-========================================================================
+Canvas -- A Web-Based Drawing Application Based on [React-Starter](https://github.com/taichi-master/react-starter) Project
+==========================================================================================================================
 
-Notice: This project got nothing to do with the Google's Canvas.
+Notice: This project got nothing to do with the Google's Canvas App.
 
 Some Web Based Drawing Examples are very complex such as https://github.com/muaz-khan/Canvas-Designer.
 
@@ -20,9 +20,9 @@ Todo:
 ----
 This project was built under a very small time frame.  Leaves a lot of rooms for improvements such as...
 
-1. Better UI/UX.
-2. Clean up the code.
-3. Unit tests
+1. Clean up and refactor the code.
+2. Unit tests
+3. Better UI/UX.
 
 Moreover, this is just a demonstration example.  I combined everything into one server.  It is better to seperate the frontend and backend into different services.
 The backend portion also can be divided further into different micro-services such as authentication, database and etc. That way we can distribute the micro-services into different servers via Kubernetes or some other cloud services.
@@ -40,6 +40,8 @@ The drawing portion is inspired by the following links
 https://www.youtube.com/watch?v=3GqUM4mEYKA
 http://www.williammalone.com/articles/create-html5-canvas-javascript-drawing-app/
 https://code.tutsplus.com/tutorials/how-to-create-a-web-based-drawing-application-using-canvas--net-14288
+https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Compositing
+https://github.com/disjukr/croquis.js (for more brush types)
 
 License:
 -------
