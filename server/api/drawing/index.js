@@ -7,7 +7,9 @@ const passport = require( 'passport' ),
 const Drawing = require( './models/drawing' )      
 
 router.get( '/:id', requireAuth, function ( req, res, next ) {
-  Drawing.findById( req.params.id, function ( err, drawing ) {
+  const id = req.params.id
+
+  Drawing.findById( +id, function ( err, drawing ) {
     if ( err )
       res.status( 500 ).send( 'error getting' )
     else {
@@ -29,7 +31,9 @@ router.post( '/', requireAuth, function ( req, res, next ) { // create
 } )
 
 router.delete( '/:id', requireAuth, function ( req, res, next ) {
-  Drawing.findByIdAndRemove( req.params.id, function ( err, drawing ) {
+  const id = req.params.id
+
+  Drawing.findByIdAndRemove( +id, function ( err, drawing ) {
     if ( err )
       res.status( 500 ).send( 'error deleting' )
     else {

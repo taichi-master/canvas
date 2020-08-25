@@ -1,25 +1,12 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { fetchThumbnails } from 'models/actions'
+import Loading from 'components/loading'
+import Thumbnail from 'components/thumbnail'
 
 import "./style.scss"
 
 // console.log( 'load Home' )
-
-const getUrl = ( id, user, currentUser ) => ( user === currentUser ? `/canvas/${id}` : '' )
-
-function Thumbnail ( props ) {
-  const { drawing : { id, user, thumbnail }, currentUserId } = props
-
-  return (
-    <div className="item">
-      <Link to={ getUrl( id, user, currentUserId ) }>
-        <img src={ thumbnail } />
-      </Link>
-    </div>
-  )
-}
 
 @connect( ( { thumbnails, user } ) => ( { thumbnails, user } ), { fetchThumbnails } )
 export default class Home extends React.Component {
@@ -32,7 +19,6 @@ export default class Home extends React.Component {
   componentDidMount () {
     const { user } = this.props
 
-    console.log( user.id )
     this.props.fetchThumbnails( user.id )
   }
 
@@ -57,7 +43,7 @@ export default class Home extends React.Component {
       <div className="home">
         <div className="thumbnails">
           {
-            isFetching ? 'Loading...'
+            isFetching ? <Loading />
               : drawings.map( ( drawing, i ) => <Thumbnail drawing={ drawing } currentUserId={ userId } key={ i } /> )
           }
         </div>

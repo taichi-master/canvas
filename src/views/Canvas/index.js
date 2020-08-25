@@ -1,40 +1,24 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { getDrawing, saveDrawing, removeDrawing } from 'models/actions'
-
+import Loading from 'components/loading'
 import Canvas2Image from './canvas2image' // npm version has bug.
+import { changeColor, changeWidth, eraser, draw, keep, replay } from './tools'
 import "./style.scss"
 
-function changeColor ( color ) {
-  const ctx = this.ctx
+const STROKE_WIDTH = 6,
+      STROKE_COLOR = '#FFFFFF'
 
-  ctx.strokeStyle = color
+function onColor ( color ) {
+  changeColor( this.state.ctx, color, this.currentLineWidth )
 
-  // reset from eraser
-  ctx.globalCompositeOperation = "source-over"
-  ctx.lineWidth = this.strokeWidth
-
-  this.isKeepingHistory && this.keepHistory( 'changeColor', { color } )
+  keep( this.state.history, 'changeColor', { color } )
 }
 
-function changeWidth ( width ) {
-  this.ctx.lineWidth = this.strokeWidth = width
+function onWidth ( width ) {
+  this.currentLineWidth = changeWidth( this.state.ctx, width )
 
-  this.isKeepingHistory && this.keepHistory( 'changeWidth', { width } )
-}
-
-function eraser ( ctx ) {
-  ctx.globalCompositeOperation = "destination-out"
-  ctx.strokeStyle = "rgba(255,255,255,1)"
-  ctx.lineWidth = '22'
-}
-
-function draw ( ctx, x, y ) {
-  ctx.lineCap = 'round'
-  ctx.lineTo( x, y )
-  ctx.stroke()
-  ctx.beginPath()
-  ctx.moveTo( x, y )
+  keep( this.state.history, 'changeWidth', { width } )
 }
 
 @connect( ( { drawing, user } ) => ( { drawing, user } ), { getDrawing, saveDrawing, removeDrawing } )
@@ -45,16 +29,17 @@ export default class Canvas extends React.Component {
 
     this.interval = null
     this.canvasRef = React.createRef()
-    this.strokeWidth = 6
-    this.strokeColor = '#FFFFFF'
-    this.id = this.props.match && this.props.match.params.id
-    this.isKeepingHistory = true
+    this.currentLineWidth = STROKE_WIDTH
 
     this.state = {
+      id: null,
+      ctx: null,
       isPrivate: false,
       creationDateTime: null,
       elapsedTime: 0,
-      painting: false
+      history: [],
+      painting: false,
+      loading: false
     }
   }
 
@@ -62,14 +47,17 @@ export default class Canvas extends React.Component {
     const canvas = this.canvasRef.current,
           ctx = canvas.getContext( "2d" )
 
-    getDrawing( this.id )
-    this.ctx = ctx
+    var drawingId = this.props.match.params.id
+
+    drawingId && this.props.getDrawing( +drawingId )
+
+    this.state.ctx = ctx
     this.offsetX = canvas.offsetLeft
     this.offsetY = canvas.offsetTop
   
     // default settings
-    ctx.lineWidth = this.strokeWidth
-    ctx.strokeStyle = this.strokeColor
+    ctx.lineWidth = STROKE_WIDTH
+    ctx.strokeStyle = STROKE_COLOR
     
     // Reszing
     // canvas.width = window.innerWidth
@@ -90,32 +78,6 @@ export default class Canvas extends React.Component {
     this.interval && clearInterval( this.interval )
   }
 
-  keepHistory = ( action, params ) => {
-    this.props.drawing.history.push( {
-      dt: new Date(),
-      action,
-      params
-    } )    
-  }
-
-  replay = () => {
-    this.isKeepingHistory = false
-
-    this.props.history.forEach( function ( action, params ) {
-      switch ( action ) {
-      case 'draw':
-        draw( this.ctx, params.x, params.y )
-        break
-
-      case 'eraser':
-        eraser( this.ctx )
-        break
-      }  
-    } )
-
-    this.isKeepingHistory = true
-  }
-
   startPosition = ( e ) => {
     this.setState( { painting: true } )
 
@@ -124,37 +86,45 @@ export default class Canvas extends React.Component {
   
   finishedPostion = ( e ) => {
     this.setState( { painting: false } )
-    this.ctx.beginPath()
+    this.state.ctx.beginPath()
   }
 
   draw = ( e ) => {
     if ( !this.state.painting )
       return
 
-    if ( !this.state.creationDateTime ) {
-      this.setState( { creationDateTime: new Date() } )
-    }
-    
-    if ( !this.interval ) {
-      this.interval = setInterval( this.tick, 1000 )
-    }
+    this.startCreationDateTime()
+
+    this.startInterval()
     
     const x = e.clientX - this.offsetX + window.pageXOffset,
           y = e.clientY - this.offsetY + window.pageYOffset
 
-    draw( this.ctx, x, y )
+    draw( this.state.ctx, x, y )
 
-    this.isKeepingHistory && this.keepHistory( 'draw', { x, y } )
+    keep( this.state.history, 'draw', { x, y } )
+  }
+
+  startCreationDateTime = () => {
+    if ( !this.state.creationDateTime ) {
+      this.setState( { creationDateTime: new Date() } )
+    }
   }
 
   tick = () => {
     this.setState( state => ( { elapsedTime: state.elapsedTime + 1 } ) )
   }
 
-  changeToEraser = ( e ) => {
-    eraser( this.ctx )
+  startInterval = () => {
+    if ( !this.interval ) {
+      this.interval = setInterval( this.tick, 1000 )
+    }
+  }
 
-    this.isKeepingHistory && this.keepHistory( 'eraser' )
+  changeToEraser = ( e ) => {
+    eraser( this.state.ctx )
+
+    keep( this.state.history, 'eraser' )
   }
 
   togglePrivate = ( e ) => {
@@ -162,9 +132,8 @@ export default class Canvas extends React.Component {
   }
 
   save = ( e ) => {
-    const { isPrivate, creationDateTime, elapsedTime } = this.state,
-          { drawing: { history }, user } = this.props,
-          { id } = this,
+    const { id, isPrivate, creationDateTime, elapsedTime, history } = this.state,
+          { user } = this.props,
           canvas = this.canvasRef.current,
           thumbnail = Canvas2Image.convertToJPEG( canvas, 80, 60 )
 
@@ -180,10 +149,22 @@ export default class Canvas extends React.Component {
   }
 
   delete = ( e ) => {
-    this.props.removeDrawing ( this.props.id )
+    this.props.removeDrawing ( this.state.id )
+    this.props.history.push( '/' )
   }
 
   static getDerivedStateFromProps ( props, state ) {
+    if ( props.drawing.isFetching && !state.loading ) {
+      return { loading: true }
+    }
+
+    if ( state.loading && !props.drawing.isFetching ) {
+      const { id, isPrivate, creationDateTime, elapsedTime, history } = props.drawing
+
+      replay( state.ctx, history )
+      return { id, isPrivate, creationDateTime, elapsedTime, history, loading: false }
+    }
+
     return null
   }
 
@@ -198,6 +179,10 @@ export default class Canvas extends React.Component {
         <div>Creation date &amp; time: <span>{ this.state.creationDateTime && this.state.creationDateTime.toLocaleString() }</span></div>
         <div><label><input type="checkbox" checked={ this.state.isPrivate } onChange={ this.togglePrivate } /> Private</label></div>
         <div>Elapsed time: <span>{ this.state.elapsedTime }</span> sec.</div>
+
+        {
+          this.state.loading && <Loading />
+        }
         
         <canvas id="drawingCanvas" width={ width } height={ height } ref={ this.canvasRef }> 
           We're sorry, the browser you are using does not support glt;canvas&gt;. Please upgrade your browser. 
@@ -209,25 +194,25 @@ export default class Canvas extends React.Component {
           { /* Stroke color */ }
           <div id="stroke-color">
             <div id="whiteChalk_button"> 
-              <img src="/images/white.png" width="71" height="17" onClick={ changeColor.bind( this, '#FFFFFF' ) } /> 
+              <img src="/images/white.png" width="71" height="17" onClick={ onColor.bind( this, '#FFFFFF' ) } /> 
             </div> 
             <div id="redChalk_button"> 
-              <img src="/images/red.png" width="71" height="17" onClick={ changeColor.bind( this, '#F00000' ) } /> 
+              <img src="/images/red.png" width="71" height="17" onClick={ onColor.bind( this, '#F00000' ) } /> 
             </div> 
             <div id="orangeChalk_button"> 
-              <img src="/images/orange.png" width="71" height="17" onClick={ changeColor.bind( this, '#ff9600' ) } /> 
+              <img src="/images/orange.png" width="71" height="17" onClick={ onColor.bind( this, '#ff9600' ) } /> 
             </div> 
             <div id="yellowChalk_button"> 
-              <img src="/images/yellow.png" width="71" height="17" onClick={ changeColor.bind( this, '#fff600' ) } /> 
+              <img src="/images/yellow.png" width="71" height="17" onClick={ onColor.bind( this, '#fff600' ) } /> 
             </div> 
             <div id="greenChalk_button"> 
-              <img src="/images/green.png" width="71" height="17" onClick={ changeColor.bind( this, '#48ff00' ) } /> 
+              <img src="/images/green.png" width="71" height="17" onClick={ onColor.bind( this, '#48ff00' ) } /> 
             </div> 
             <div id="blueChalk_button"> 
-              <img src="/images/blue.png" width="71" height="17" onClick={ changeColor.bind( this, '#001eff' ) } /> 
+              <img src="/images/blue.png" width="71" height="17" onClick={ onColor.bind( this, '#001eff' ) } /> 
             </div> 
             <div id="pinkChalk_button"> 
-              <img src="/images/pink.png" width="71" height="17" onClick={ changeColor.bind( this, '#ff00d2' ) } /> 
+              <img src="/images/pink.png" width="71" height="17" onClick={ onColor.bind( this, '#ff00d2' ) } /> 
             </div>
             <div id="eraser">
               <img src="/images/eraser.png" width="71" height="17" onClick={ this.changeToEraser } /> 
@@ -238,13 +223,13 @@ export default class Canvas extends React.Component {
           { /* Stroke Weight Panel */ }
           <div id="stroke-weight">
             <img src="/images/stroke1.png" alt="1.0" className="stroke" width="30" height="32"
-              onClick={ changeWidth.bind( this, 1.0 ) } />
+              onClick={ onWidth.bind( this, 1.0 ) } />
             <img src="/images/stroke2.png" alt="6.0" className="stroke" width="30" height="32"
-              onClick={ changeWidth.bind( this, 6.0 ) } />
+              onClick={ onWidth.bind( this, 6.0 ) } />
             <img src="/images/stroke3.png" alt="9.0" className="stroke" width="30" height="32"
-              onClick={ changeWidth.bind( this, 9.0 ) } />
+              onClick={ onWidth.bind( this, 9.0 ) } />
             <img src="/images/stroke4.png" alt="13.0" className="stroke" width="30" height="32"
-              onClick={ changeWidth.bind( this, 13.0 ) } />
+              onClick={ onWidth.bind( this, 13.0 ) } />
           </div>
 
           { /* Brushes */ }
@@ -255,7 +240,7 @@ export default class Canvas extends React.Component {
           <div id="functions">
             <img src="/images/save.png" width="32" height="32" alt="Save" onClick={ this.save } /> 
             {
-              this.id && <img src="/images/cross.png" width="32" height="32" alt="Delete" onClick={ this.delete } /> 
+              this.state.id && <img src="/images/cross.png" width="32" height="32" alt="Delete" onClick={ this.delete } /> 
             }
           </div>
 

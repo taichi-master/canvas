@@ -7,7 +7,7 @@ const JsonDB = require( 'node-json-db' ).JsonDB,
 class Drawing {
   constructor ( drawing ) {
     const {
-      id = Date.now(),
+      id,
       user,
       isPrivate,
       creationDateTime,
@@ -35,9 +35,12 @@ class Drawing {
         callback( err )
       } else {
         try {
-          const lastSaved = new Date()
+          const lastSaved = new Date(),
+                id = this.id,
+                index = id ? db.getIndex( '/drawings', id ) + '' : ''
 
-          db.push( '/drawings[]', { ...this, lastSaved } )
+          this.id = id || Date.now()
+          db.push( `/drawings[${index}]`, { ...this, lastSaved } )
           this.lastSaved = lastSaved
           callback( null )
       
@@ -54,18 +57,7 @@ Drawing.findByUser = ( user, callback ) => {
   try {
     const drawings = db.getData( '/drawings' )
 
-    // if ( user ) {
-
-    //   callback( null, drawings.filter( x => x.user === user ) )
-
-    // } else {
-
-    console.log( user )
-
-    callback( null, drawings.filter( x => !x.isPrivate || ( user && x.user === user ) ) )
-    // callback( null, drawings.filter( x => ( x.user === user ) ) )
-        
-    // }
+    callback( null, drawings.filter( x => x.user === user || !x.isPrivate ) ) // only allow owner's or public drawings
 
   } catch ( err ) {
     callback( err, null )
@@ -74,7 +66,6 @@ Drawing.findByUser = ( user, callback ) => {
 
 Drawing.findById = ( id, callback ) => {
   try {
-
     const index = db.getIndex( '/drawings', id )
 
     if ( ~index ) {

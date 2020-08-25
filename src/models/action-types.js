@@ -22,15 +22,7 @@ export const SAVE_DRAWING_SUCCESS = Symbol( 'SAVE_DRAWING_SUCCESS' )
 export const SAVE_DRAWING_FAILURE = Symbol( 'SAVE_DRAWING_FAILURE' )
 
 export const REMOVE_DRAWING = Symbol( 'REMOVE_DRAWING' )
-
-
+export const REMOVE_DRAWING_SUCCESS = Symbol( 'REMOVE_DRAWING_SUCCESS' )
+export const REMOVE_DRAWING_FAILURE = Symbol( 'REMOVE_DRAWING_FAILURE' )
 
 export const SET_YEAR = Symbol( 'SET_YEAR' )
-
-export const GET_POSTS_BY_USER = Symbol( 'GET_POSTS_BY_USER' )
-export const GET_POSTS_SUCCESS = Symbol( 'GET_POSTS_SUCCESS' )
-export const GET_POSTS_FAILURE = Symbol( 'GET_POSTS_FAILURE' )
-
-export const GET_COMMENTS_BY_POST = Symbol( 'GET_COMMENTS_BY_POST' )
-export const GET_COMMENTS_SUCCESS = Symbol( 'GET_COMMENTS_SUCCESS' )
-export const GET_COMMENTS_FAILURE = Symbol( 'GET_COMMENTS_FAILURE' )

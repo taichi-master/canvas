@@ -4,7 +4,9 @@ const express = require( 'express' ),
 const Drawing = require( './models/drawing' )      
 
 router.get( '/:id*?', function ( req, res, next ) {
-  Drawing.findByUser( req.id, function ( err, thumbnails ) {
+  const id = req.params.id
+
+  Drawing.findByUser( id && +id, function ( err, thumbnails ) {
     if ( err )
       res.status( 500 ).send( 'error getting' )
     else {
