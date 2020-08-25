@@ -54,9 +54,8 @@ export default class Home extends React.Component {
       <div className="home">
         <div className="listing">
           {
-            isFetching ? 'Loading...' :
-
-              drawings.map( ( drawing, i ) => <Thumbnail drawing={ drawing } currentUserId={ userId } key={ i } /> )
+            isFetching ? 'Loading...'
+              : drawings.map( ( drawing, i ) => <Thumbnail drawing={ drawing } currentUserId={ userId } key={ i } /> )
           }
         </div>
       </div>

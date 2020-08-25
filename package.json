@@ -12,17 +12,11 @@
       },
       {
         "name": "Canvas",
-        "url": "/canvas",
-        "auth-required": true
+        "url": "/canvas"
       },
       {
         "name": "About",
         "url": "/about"
-      },
-      {
-        "name": "Sign Out",
-        "url": "/signout",
-        "auth-required": true
       },
       {
         "name": "Sign In",
@@ -30,8 +24,11 @@
       },
       {
         "name": "Sign Up",
-        "url": "/signup",
-        "auth-required": false
+        "url": "/signup"
+      },
+      {
+        "name": "Sign Out",
+        "url": "/signout"
       }
     ],
     "footLinks": [

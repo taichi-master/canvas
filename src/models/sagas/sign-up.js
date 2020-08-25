@@ -1,6 +1,6 @@
 import { takeEvery, call, put } from 'redux-saga/effects'
 import * as api from './api'
-import { SIGN_UP, AUTH_USER, SET_USER } from 'models/action-types'
+import { SIGN_UP, SET_USER } from 'models/action-types'
 import { authUser, authError } from 'models/actions'
 
 function* signUp ( action ) {
@@ -14,6 +14,9 @@ function* signUp ( action ) {
 
     // - Save the JWT token
     localStorage.setItem( 'token', user.token )
+
+    // set user info
+    yield put( { type: SET_USER, user } )
 
     callback()
 

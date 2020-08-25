@@ -209,41 +209,41 @@ export default class Canvas extends React.Component {
           { /* Stroke color */ }
           <div id="stroke-color">
             <div id="whiteChalk_button"> 
-              <img src="images/white.png" width="71" height="17" onClick={ changeColor.bind( this, '#FFFFFF' ) } /> 
+              <img src="/images/white.png" width="71" height="17" onClick={ changeColor.bind( this, '#FFFFFF' ) } /> 
             </div> 
             <div id="redChalk_button"> 
-              <img src="images/red.png" width="71" height="17" onClick={ changeColor.bind( this, '#F00000' ) } /> 
+              <img src="/images/red.png" width="71" height="17" onClick={ changeColor.bind( this, '#F00000' ) } /> 
             </div> 
             <div id="orangeChalk_button"> 
-              <img src="images/orange.png" width="71" height="17" onClick={ changeColor.bind( this, '#ff9600' ) } /> 
+              <img src="/images/orange.png" width="71" height="17" onClick={ changeColor.bind( this, '#ff9600' ) } /> 
             </div> 
             <div id="yellowChalk_button"> 
-              <img src="images/yellow.png" width="71" height="17" onClick={ changeColor.bind( this, '#fff600' ) } /> 
+              <img src="/images/yellow.png" width="71" height="17" onClick={ changeColor.bind( this, '#fff600' ) } /> 
             </div> 
             <div id="greenChalk_button"> 
-              <img src="images/green.png" width="71" height="17" onClick={ changeColor.bind( this, '#48ff00' ) } /> 
+              <img src="/images/green.png" width="71" height="17" onClick={ changeColor.bind( this, '#48ff00' ) } /> 
             </div> 
             <div id="blueChalk_button"> 
-              <img src="images/blue.png" width="71" height="17" onClick={ changeColor.bind( this, '#001eff' ) } /> 
+              <img src="/images/blue.png" width="71" height="17" onClick={ changeColor.bind( this, '#001eff' ) } /> 
             </div> 
             <div id="pinkChalk_button"> 
-              <img src="images/pink.png" width="71" height="17" onClick={ changeColor.bind( this, '#ff00d2' ) } /> 
+              <img src="/images/pink.png" width="71" height="17" onClick={ changeColor.bind( this, '#ff00d2' ) } /> 
             </div>
             <div id="eraser">
-              <img src="images/eraser.png" width="71" height="17" onClick={ this.changeToEraser } /> 
+              <img src="/images/eraser.png" width="71" height="17" onClick={ this.changeToEraser } /> 
             </div>
           </div>
 
 
           { /* Stroke Weight Panel */ }
           <div id="stroke-weight">
-            <img src="images/stroke1.png" alt="1.0" className="stroke" width="30" height="32"
+            <img src="/images/stroke1.png" alt="1.0" className="stroke" width="30" height="32"
               onClick={ changeWidth.bind( this, 1.0 ) } />
-            <img src="images/stroke2.png" alt="6.0" className="stroke" width="30" height="32"
+            <img src="/images/stroke2.png" alt="6.0" className="stroke" width="30" height="32"
               onClick={ changeWidth.bind( this, 6.0 ) } />
-            <img src="images/stroke3.png" alt="9.0" className="stroke" width="30" height="32"
+            <img src="/images/stroke3.png" alt="9.0" className="stroke" width="30" height="32"
               onClick={ changeWidth.bind( this, 9.0 ) } />
-            <img src="images/stroke4.png" alt="13.0" className="stroke" width="30" height="32"
+            <img src="/images/stroke4.png" alt="13.0" className="stroke" width="30" height="32"
               onClick={ changeWidth.bind( this, 13.0 ) } />
           </div>
 
@@ -253,9 +253,9 @@ export default class Canvas extends React.Component {
 
           { /* Functions */ }
           <div id="functions">
-            <img src="images/save.png" width="32" height="32" alt="Save" onClick={ this.save } /> 
+            <img src="/images/save.png" width="32" height="32" alt="Save" onClick={ this.save } /> 
             {
-              this.id && <img src="images/cross.png" width="32" height="32" alt="Delete" onClick={ this.delete } /> 
+              this.id && <img src="/images/cross.png" width="32" height="32" alt="Delete" onClick={ this.delete } /> 
             }
           </div>
 
