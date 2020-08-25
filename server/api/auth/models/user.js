@@ -13,10 +13,15 @@ class User {
     this.id = user.id || Date.now()
     this.email = user.email
     this.password = user.password
-    this._doc = {
+    this.name = user.name
+  }
+
+  get _doc () {
+    return {
       id: this.id,
       email: this.email,
-      password: user.password
+      password: this.password,
+      name: this.name
     }
   }
 
@@ -50,9 +55,7 @@ class User {
         callback( err )
       } else {
         try {
-          const { id, email, password } = this
-      
-          db.push( '/users[]', { id, email, password } )
+          db.push( '/users[]', this._doc )
           callback( null )
       
         } catch ( err ) {
@@ -81,8 +84,6 @@ User.findOne = ( obj, callback ) => {
     if ( ~index ) {
 
       const users = db.getData( '/users' )
-
-      console.log( users[index] )
 
       callback( null, new User( users[index] ) )
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { fetchFromServer, postToServer, removeFromServer } from 'models/actions'
+import { getDrawing, saveDrawing, removeDrawing } from 'models/actions'
 
 import Canvas2Image from './canvas2image' // npm version has bug.
 import "./style.scss"
@@ -13,13 +13,31 @@ function changeColor ( color ) {
   // reset from eraser
   ctx.globalCompositeOperation = "source-over"
   ctx.lineWidth = this.strokeWidth
+
+  this.isKeepingHistory && this.keepHistory( 'changeColor', { color } )
 }
 
 function changeWidth ( width ) {
   this.ctx.lineWidth = this.strokeWidth = width
+
+  this.isKeepingHistory && this.keepHistory( 'changeWidth', { width } )
 }
 
-@connect( { isPrivate, creationDateTime, elapsedTime, history }, { fetchFromServer, postToServer, removeFromServer } )
+function eraser ( ctx ) {
+  ctx.globalCompositeOperation = "destination-out"
+  ctx.strokeStyle = "rgba(255,255,255,1)"
+  ctx.lineWidth = '22'
+}
+
+function draw ( ctx, x, y ) {
+  ctx.lineCap = 'round'
+  ctx.lineTo( x, y )
+  ctx.stroke()
+  ctx.beginPath()
+  ctx.moveTo( x, y )
+}
+
+@connect( ( { drawing, user } ) => ( { drawing, user } ), { getDrawing, saveDrawing, removeDrawing } )
 export default class Canvas extends React.Component {
 
   constructor ( props ) {
@@ -30,6 +48,7 @@ export default class Canvas extends React.Component {
     this.strokeWidth = 6
     this.strokeColor = '#FFFFFF'
     this.id = this.props.match && this.props.match.params.id
+    this.isKeepingHistory = true
 
     this.state = {
       isPrivate: false,
@@ -43,7 +62,7 @@ export default class Canvas extends React.Component {
     const canvas = this.canvasRef.current,
           ctx = canvas.getContext( "2d" )
 
-    fetchFromServer( this.id )
+    getDrawing( this.id )
     this.ctx = ctx
     this.offsetX = canvas.offsetLeft
     this.offsetY = canvas.offsetTop
@@ -71,6 +90,32 @@ export default class Canvas extends React.Component {
     this.interval && clearInterval( this.interval )
   }
 
+  keepHistory = ( action, params ) => {
+    this.props.drawing.history.push( {
+      dt: new Date(),
+      action,
+      params
+    } )    
+  }
+
+  replay = () => {
+    this.isKeepingHistory = false
+
+    this.props.history.forEach( function ( action, params ) {
+      switch ( action ) {
+      case 'draw':
+        draw( this.ctx, params.x, params.y )
+        break
+
+      case 'eraser':
+        eraser( this.ctx )
+        break
+      }  
+    } )
+
+    this.isKeepingHistory = true
+  }
+
   startPosition = ( e ) => {
     this.setState( { painting: true } )
 
@@ -95,24 +140,11 @@ export default class Canvas extends React.Component {
     }
     
     const x = e.clientX - this.offsetX + window.pageXOffset,
-          y = e.clientY - this.offsetY + window.pageYOffset,
-          ctx = this.ctx,
-          { strokeStyle, lineWidth, globalCompositeOperation } = ctx
+          y = e.clientY - this.offsetY + window.pageYOffset
 
-    this.props.history.push( {
-      dt: new Date(),
-      strokeStyle,
-      lineWidth,
-      globalCompositeOperation,
-      x, 
-      y
-    } )
+    draw( this.ctx, x, y )
 
-    ctx.lineCap = 'round'
-    ctx.lineTo( x, y )
-    ctx.stroke()
-    ctx.beginPath()
-    ctx.moveTo( x, y )
+    this.isKeepingHistory && this.keepHistory( 'draw', { x, y } )
   }
 
   tick = () => {
@@ -120,11 +152,9 @@ export default class Canvas extends React.Component {
   }
 
   changeToEraser = ( e ) => {
-    const ctx = this.ctx
+    eraser( this.ctx )
 
-    ctx.globalCompositeOperation = "destination-out"
-    ctx.strokeStyle = "rgba(255,255,255,1)"
-    ctx.lineWidth = '22'
+    this.isKeepingHistory && this.keepHistory( 'eraser' )
   }
 
   togglePrivate = ( e ) => {
@@ -133,13 +163,14 @@ export default class Canvas extends React.Component {
 
   save = ( e ) => {
     const { isPrivate, creationDateTime, elapsedTime } = this.state,
-          { history } = this.props,
+          { drawing: { history }, user } = this.props,
           { id } = this,
           canvas = this.canvasRef.current,
           thumbnail = Canvas2Image.convertToJPEG( canvas, 80, 60 )
 
-    postToServer( {
+    this.props.saveDrawing( {
       id,
+      user: user.id,
       isPrivate,
       creationDateTime,
       elapsedTime,
@@ -149,7 +180,7 @@ export default class Canvas extends React.Component {
   }
 
   delete = ( e ) => {
-    removeFromServer ( this.props.id )
+    this.props.removeDrawing ( this.props.id )
   }
 
   static getDerivedStateFromProps ( props, state ) {
@@ -222,9 +253,9 @@ export default class Canvas extends React.Component {
 
           { /* Functions */ }
           <div id="functions">
-            <img src="images/save.png" width="17" height="17" alt="Save" onClick={ this.save } /> 
+            <img src="images/save.png" width="32" height="32" alt="Save" onClick={ this.save } /> 
             {
-              this.id && <img src="images/cross.png" width="17" height="17" alt="Delete" onClick={ this.delete } /> 
+              this.id && <img src="images/cross.png" width="32" height="32" alt="Delete" onClick={ this.delete } /> 
             }
           </div>
 

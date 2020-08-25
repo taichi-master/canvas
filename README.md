@@ -27,7 +27,7 @@ This project was built under a very small time frame.  Leaves a lot of rooms for
 Moreover, this is just a demonstration example.  I combined everything into one server.  It is better to seperate the frontend and backend into different services.
 The backend portion also can be divided further into different micro-services such as authentication, database and etc. That way we can distribute the micro-services into different servers via Kubernetes or some other cloud services.
 
-For simplicity I am using https://www.npmjs.com/package/node-json-db for local database management system.  It is better use Mongoose or some other real world DBMS.
+For simplicity I am using [Belphemur/node-json-db](https://www.npmjs.com/package/node-json-db) for local database management system.  It is better use Mongoose or some other real world DBMS.
 
 
 Credit: 
@@ -42,6 +42,7 @@ http://www.williammalone.com/articles/create-html5-canvas-javascript-drawing-app
 https://code.tutsplus.com/tutorials/how-to-create-a-web-based-drawing-application-using-canvas--net-14288
 https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Compositing
 https://github.com/disjukr/croquis.js (for more brush types)
+https://www.script-tutorials.com/html5-canvas-custom-brush1/
 
 License:
 -------

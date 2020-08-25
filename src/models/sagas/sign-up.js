@@ -17,8 +17,6 @@ function* signUp ( action ) {
 
     callback()
 
-    // return token
-
   } catch ( error ) {
     yield put( authError( error.message ) )
   }

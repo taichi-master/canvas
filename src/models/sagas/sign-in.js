@@ -1,6 +1,6 @@
 import { takeEvery, call, put } from 'redux-saga/effects'
 import * as api from './api'
-import { SIGN_IN, AUTH_USER, SET_USER } from 'models/action-types'
+import { SIGN_IN, SET_USER } from 'models/action-types'
 import { authUser, authError } from 'models/actions'
 
 function* signIn ( action ) {
@@ -19,8 +19,6 @@ function* signIn ( action ) {
     yield put( { type: SET_USER, user } )
 
     callback()
-
-    // return token
 
   } catch ( error ) {
     yield put( authError( 'Bad Login Info' ) )

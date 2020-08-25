@@ -8,6 +8,7 @@ import Loading from 'components/loading'
 import Home from 'views/Home'
 import Canvas from 'views/Canvas'
 import NoMatch from 'views/404'
+import { connect } from 'react-redux'
 
 import SignUp from 'components/auth/SignUp'
 import SignIn from 'components/auth/SignIn'
@@ -24,30 +25,36 @@ const About = Loadable( {
 if ( module.hot )
   setConfig( { logLevel: 'no-errors-please' } )
 
-const App = () => (
-  <LastLocationProvider>
-    <header>
-      <NavBar />
-    </header>
-    <article className="main-content">
-      <Switch>
-        <Route path="/" exact component={ Home } />
-        <Route path="/signup" component={ SignUp } />
-        <Route path="/signin" component={ SignIn } />
-        <Route path="/signout" component={ SignOut } />
-        <Route path="/canvas/:id?" component={ Canvas } />
-        { /* <Route path="/canvas/id:?" component={ RequireAuth( Canvas ) } /> */ }
-        <Route path="/about" component={ About } />
-        <Route component={ NoMatch } />
-      </Switch>
-    </article>
-    <footer className="footer">
-      <div className="center">
-        <FootLinks />
-        <div className="clear"></div>
-      </div>
-    </footer>
-  </LastLocationProvider>
-)
+@connect( ( { user } ) => ( { user } ) )
+class App extends React.Component {
+  render () {
+    return (
+      <LastLocationProvider>
+        <header>
+          <NavBar />
+          <div className="user">{ this.props.user.name }</div>
+        </header>
+        <article className="main-content">
+          <Switch>
+            <Route path="/" exact component={ Home } />
+            <Route path="/signup" component={ SignUp } />
+            <Route path="/signin" component={ SignIn } />
+            <Route path="/signout" component={ SignOut } />
+            { /* <Route path="/canvas/:id?" component={ Canvas } /> */ }
+            <Route path="/canvas/id:?" component={ RequireAuth( Canvas ) } />
+            <Route path="/about" component={ About } />
+            <Route component={ NoMatch } />
+          </Switch>
+        </article>
+        <footer className="footer">
+          <div className="center">
+            <FootLinks />
+            <div className="clear"></div>
+          </div>
+        </footer>
+      </LastLocationProvider>
+    )
+  }
+}
 
 export default module.hot ? hot( module )( App ) : App

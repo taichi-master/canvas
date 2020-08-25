@@ -21,7 +21,7 @@ class SignUp extends React.PureComponent {
       </div>
     )
   }
-
+   
   renderAlert () {
     if ( this.props.errorMessage ) {
       return (
@@ -32,8 +32,8 @@ class SignUp extends React.PureComponent {
     }
   }
 
-  onSubmit = ( { email, password } ) => {
-    this.props.signupUser( { email, password }, () => {
+  onSubmit = ( { email, password, name } ) => {
+    this.props.signupUser( { email, password, name }, () => {
       this.props.history.push( '/' )
     } )
   }
@@ -49,6 +49,7 @@ class SignUp extends React.PureComponent {
           <Field label="Email" name="email" component={ this.renderField } type="text" />
           <Field label="Password" name="password" component={ this.renderField } type="password" />
           <Field label="Confirm Password" name="passwordConfirm" component={ this.renderField } type="password" />
+          <Field label="name" name="name" component={ this.renderField } type="text" />
           {
             this.renderAlert()
           }

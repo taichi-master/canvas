@@ -20,7 +20,6 @@ exports.signin = function ( req, res, next ) {
 
   const user = req.user._doc
 
-
   user.id = req.user.id
   user.token = tokenForUser( req.user )
 
@@ -30,7 +29,7 @@ exports.signin = function ( req, res, next ) {
 exports.signup = function ( req, res, next ) {
   const { email, password } = req.body
 
-  console.log( '+++ signup', email, password )
+  console.log( '+++ signup', req.body )
 
   if ( !( email && password ) )
     return res.status( 422 ).send( { error: 'You must provide email and password' } )
@@ -46,7 +45,7 @@ exports.signup = function ( req, res, next ) {
     }
 
     // If a user with email does NOT exits, create and save user record
-    const user = new User( { email, password } )
+    const user = new User( req.body )
 
     user.save( function ( err ) {
       if ( err )
@@ -55,7 +54,6 @@ exports.signup = function ( req, res, next ) {
       // Respond to request indicating the user was created
       // res.send({...req.user, token: tokenForUser(user)});
 
-      console.log( user )
       res.send( { ...user._doc, token: tokenForUser( user ) } )
     } )
   } )

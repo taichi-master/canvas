@@ -1,9 +1,9 @@
-import { FETCH_LISTING, FETCH_DRAWING, SAVE_DRAWING, REMOVE_DRAWING } from 'models/action-types'
+import { FETCH_LISTING, GET_DRAWING, SAVE_DRAWING, REMOVE_DRAWING } from 'models/action-types'
 
-export const fetchListing = () => ( { type: FETCH_LISTING } )
+export const fetchListing = user => ( { type: FETCH_LISTING, user } )
 
-export const fetchFromServer = id => ( { type: FETCH_DRAWING, id } )
+export const getDrawing = id => ( { type: GET_DRAWING, id } )
 
-export const postToServer = id => ( { type: SAVE_DRAWING, id } )
+export const saveDrawing = payload => ( { type: SAVE_DRAWING, payload } )
 
-export const removeFromServer = id => ( { type: REMOVE_DRAWING, id } )
+export const removeDrawing = id => ( { type: REMOVE_DRAWING, id } )
