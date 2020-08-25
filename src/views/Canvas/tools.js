@@ -37,7 +37,7 @@ function resetPath ( ctx ) {
   ctx.beginPath()
 }
 
-export function replay ( ctx, history ) {
+export function instantReplay ( ctx, history ) {
   var currentLineWidth = ctx.lineWidth
 
   function play ( { action, params } ) {
@@ -65,6 +65,60 @@ export function replay ( ctx, history ) {
   }
   
   history.forEach( play )
+  resetPath( ctx )
+}
+
+
+export async function replay ( ctx, history ) {
+  var currentLineWidth = ctx.lineWidth
+
+  function play ( { action, params } ) {
+    switch ( action ) {
+    case 'draw':
+      draw( ctx, params.x, params.y )
+      break
+  
+    case 'eraser':
+      eraser( ctx )
+      resetPath( ctx )
+      break
+  
+    case 'changeColor':
+      changeColor( ctx, params.color, currentLineWidth )
+      resetPath( ctx )
+      break
+  
+    case 'changeWidth':
+      changeWidth( ctx, params.width )
+      currentLineWidth = params.width
+      resetPath( ctx )
+      break
+    }  
+  }
+
+  var last = history.length - 1
+
+  for ( var i = 0; i < last; i++ ) {
+
+    const dt2 = new Date( history[i + 1].dt ),
+          dt1 = new Date( history[i].dt ),
+          elapsed = dt2 - dt1
+
+    function delayedPlay ( ) {
+      return new Promise( function ( resolve ) {
+
+        setTimeout( function () {
+          resolve( play( history[i] ) )
+        }, Math.min( elapsed, 3000 ) ) // here is a situation that the user might saved the drawing and came few days later to continue working on the drawing.  Better set the maximum wait time.
+
+      } )
+    }
+
+    await delayedPlay()
+  }
+  
+  play( history[last] )
+
   resetPath( ctx )
 }
 
