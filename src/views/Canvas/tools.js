@@ -100,7 +100,8 @@ export async function replay ( ctx, history ) {
 
   for ( var i = 0; i < last; i++ ) {
 
-    const dt2 = new Date( history[i + 1].dt ),
+    // other thought.  we should keep trace the time different while drawing, then we don't have to worry setting maximum wait time.
+    const dt2 = new Date( history[i + 1].dt ),    
           dt1 = new Date( history[i].dt ),
           elapsed = dt2 - dt1
 
