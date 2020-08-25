@@ -25,6 +25,7 @@ const pkg = require( "package.json" )
 const About = () => (
   <div className="about">
     <h1>About <span>{ pkg.name }</span></h1>
+    <h1 className="project">{ pkg.description }</h1>
     <h1>Lazy Loading Page</h1>
   </div>
 )

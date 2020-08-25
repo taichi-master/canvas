@@ -50,18 +50,19 @@ class Drawing {
 }
 
 Drawing.findByUser = ( user, callback ) => {
+
   try {
+    const drawings = db.getData( '/drawings' )
 
-    const index = db.getIndex( '/drawings', user, 'user' )
+    if ( user ) {
 
-    if ( ~index ) {
+      callback( null, drawings.filter( x => x.user === user ) )
 
-      const drawings = db.getData( '/drawings' )
+    } else {
 
-      callback( null, new Drawing( drawings[index] ) )
-
-    } else
-      callback( 'id not found', null )
+      callback( null, drawings.filter( x => !x.isPrivate ) )
+        
+    }
 
   } catch ( err ) {
     callback( err, null )

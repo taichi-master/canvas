@@ -25,17 +25,13 @@ export default ( drawing = initState, action ) => {
   case types.GET_DRAWING:
     return { ...drawing, isFetching: true, didInvalidate: false }
   
-  case types.SAVE_DRAWING_SUCCESS:
+  case types.GET_DRAWING_SUCCESS:
     return { ...drawing, isFetching: false, didInvalidate: false, data: action.comments }
   
-  case types.SAVE_DRAWING_FAILURE:
+  case types.GET_DRAWING_FAILURE:
     return { ...drawing, isFetching: false, didInvalidate: true, data: [] }
 
   default:
     return drawing
   }
 }
-
-// export const GET_DRAWING = Symbol( 'GET_DRAWING' )
-// export const GET_DRAWING_SUCCESS = Symbol( 'GET_DRAWING_SUCCESS' )
-// export const GET_DRAWING_FAILURE = Symbol( 'GET_DRAWING_FAILURE' )

@@ -1,17 +1,14 @@
 const express = require( 'express' ),
       router = express.Router()
 
-const passport = require( 'passport' ),
-      requireAuth = passport.authenticate( 'jwt', { session: false } )
-
 const Drawing = require( './models/drawing' )      
 
-router.get( '/:id', requireAuth, function ( req, res, next ) {
-  Drawing.findByUser( req.params.id, function ( err, drawing ) {
+router.get( '/:id*?', function ( req, res, next ) {
+  Drawing.findByUser( req.id, function ( err, listing ) {
     if ( err )
       res.status( 500 ).send( 'error getting' )
     else {
-      res.json( drawing )
+      res.json( listing.map( ( { id, user, thumbnail } ) => ( { id, user, thumbnail } ) ) )
     }
   } )
 } )
