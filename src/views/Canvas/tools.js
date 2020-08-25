@@ -37,38 +37,6 @@ function resetPath ( ctx ) {
   ctx.beginPath()
 }
 
-export function instantReplay ( ctx, history ) {
-  var currentLineWidth = ctx.lineWidth
-
-  function play ( { action, params } ) {
-    switch ( action ) {
-    case 'draw':
-      draw( ctx, params.x, params.y )
-      break
-  
-    case 'eraser':
-      eraser( ctx )
-      resetPath( ctx )
-      break
-  
-    case 'changeColor':
-      changeColor( ctx, params.color, currentLineWidth )
-      resetPath( ctx )
-      break
-  
-    case 'changeWidth':
-      changeWidth( ctx, params.width )
-      currentLineWidth = params.width
-      resetPath( ctx )
-      break
-    }  
-  }
-  
-  history.forEach( play )
-  resetPath( ctx )
-}
-
-
 export async function replay ( ctx, history ) {
   var currentLineWidth = ctx.lineWidth
 
