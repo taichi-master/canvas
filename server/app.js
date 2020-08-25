@@ -72,7 +72,7 @@ function setRoutes ( app ) {
   // REST API
   app.use( '/api/auth', require( './api/auth' ) )
   app.use( '/api/drawing', require( './api/drawing' ) )
-  app.use( '/api/listing', require( './api/drawing/listing' ) )
+  app.use( '/api/thumbnails', require( './api/drawing/thumbnails' ) )
   app.enable( 'trust proxy' )
 
   // main

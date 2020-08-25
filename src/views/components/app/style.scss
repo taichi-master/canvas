@@ -12,6 +12,12 @@
 
   .user {
     text-align: right;
-    font-size: 1.25em;
+    font-size: 1.1em;
+
+    &__name {
+      display: inline-block;
+      border: 3px yellow solid;
+      padding: 6px;
+    }
   }
 }

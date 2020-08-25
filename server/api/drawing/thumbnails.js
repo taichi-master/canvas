@@ -4,11 +4,11 @@ const express = require( 'express' ),
 const Drawing = require( './models/drawing' )      
 
 router.get( '/:id*?', function ( req, res, next ) {
-  Drawing.findByUser( req.id, function ( err, listing ) {
+  Drawing.findByUser( req.id, function ( err, thumbnails ) {
     if ( err )
       res.status( 500 ).send( 'error getting' )
     else {
-      res.json( listing.map( ( { id, user, thumbnail } ) => ( { id, user, thumbnail } ) ) )
+      res.json( thumbnails.map( ( { id, user, thumbnail } ) => ( { id, user, thumbnail } ) ) )
     }
   } )
 } )

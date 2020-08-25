@@ -9,6 +9,7 @@ import Home from 'views/Home'
 import Canvas from 'views/Canvas'
 import NoMatch from 'views/404'
 import { connect } from 'react-redux'
+import cx from 'classnames'
 
 import SignUp from 'components/auth/SignUp'
 import SignIn from 'components/auth/SignIn'
@@ -32,7 +33,7 @@ class App extends React.Component {
       <LastLocationProvider>
         <header>
           <NavBar />
-          <div className="user">{ this.props.user.name }</div>
+          <div className="user"><div className={ cx( { 'user__name': this.props.user.name } ) }>{ this.props.user.name }</div></div>
         </header>
         <article className="main-content">
           <Switch>

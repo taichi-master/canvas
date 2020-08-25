@@ -54,15 +54,18 @@ Drawing.findByUser = ( user, callback ) => {
   try {
     const drawings = db.getData( '/drawings' )
 
-    if ( user ) {
+    // if ( user ) {
 
-      callback( null, drawings.filter( x => x.user === user ) )
+    //   callback( null, drawings.filter( x => x.user === user ) )
 
-    } else {
+    // } else {
 
-      callback( null, drawings.filter( x => !x.isPrivate ) )
+    console.log( user )
+
+    callback( null, drawings.filter( x => !x.isPrivate || ( user && x.user === user ) ) )
+    // callback( null, drawings.filter( x => ( x.user === user ) ) )
         
-    }
+    // }
 
   } catch ( err ) {
     callback( err, null )

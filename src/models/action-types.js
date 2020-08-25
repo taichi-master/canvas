@@ -9,9 +9,9 @@ export const SET_USER = Symbol( 'SET_USER' )
 export const FETCH_USER = Symbol( 'FETCH_USER' )
 export const UPDATE_USER = Symbol( 'UPDATE_USER' )
 
-export const FETCH_LISTING = Symbol( 'FETCH_LISTING' )
-export const FETCH_LISTING_SUCCESS = Symbol( 'FETCH_LISTING__SUCCESS' )
-export const FETCH_LISTING_FAILURE = Symbol( 'FETCH_LISTING__FAILURE' )
+export const FETCH_THUMBNAILS = Symbol( 'FETCH_THUMBNAILS' )
+export const FETCH_THUMBNAILS_SUCCESS = Symbol( 'FETCH_LISTING__SUCCESS' )
+export const FETCH_THUMBNAILS_FAILURE = Symbol( 'FETCH_LISTING__FAILURE' )
 
 export const GET_DRAWING = Symbol( 'GET_DRAWING' )
 export const GET_DRAWING_SUCCESS = Symbol( 'GET_DRAWING_SUCCESS' )

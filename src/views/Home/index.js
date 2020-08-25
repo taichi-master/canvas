@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { fetchListing } from 'models/actions'
+import { fetchThumbnails } from 'models/actions'
 
 import "./style.scss"
 
@@ -21,7 +21,7 @@ function Thumbnail ( props ) {
   )
 }
 
-@connect( ( { listing, user } ) => ( { listing, user } ), { fetchListing } )
+@connect( ( { thumbnails, user } ) => ( { thumbnails, user } ), { fetchThumbnails } )
 export default class Home extends React.Component {
   constructor ( props ){
     super( props )
@@ -30,7 +30,10 @@ export default class Home extends React.Component {
   }
 
   componentDidMount () {
-    this.props.fetchListing()
+    const { user } = this.props
+
+    console.log( user.id )
+    this.props.fetchThumbnails( user.id )
   }
 
   componentWillUnmount () {
@@ -47,12 +50,12 @@ export default class Home extends React.Component {
   }
 
   render () {
-    const { isFetching, drawings } = this.props.listing
+    const { isFetching, drawings } = this.props.thumbnails
     const { id: userId } = this.props.user
 
     return (
       <div className="home">
-        <div className="listing">
+        <div className="thumbnails">
           {
             isFetching ? 'Loading...'
               : drawings.map( ( drawing, i ) => <Thumbnail drawing={ drawing } currentUserId={ userId } key={ i } /> )

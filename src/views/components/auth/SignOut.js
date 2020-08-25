@@ -7,6 +7,7 @@ import * as actions from 'models/actions'
 class SignOut extends React.PureComponent {
   componentWillMount () {
     this.props.signoutUser()
+    this.props.setUser( {} )
   }
   
   render () {
