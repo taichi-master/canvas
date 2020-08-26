@@ -1,5 +1,14 @@
 const path = require( 'path' )
 
+/* The following code is just a work around for using the canvas2Image library. Please just ignore it for now */
+window = {}
+document = {
+  createElement: () => ( {
+    getContext: () => ( {} )
+  } )
+}
+/* ---------------- */
+
 const express = require( 'express' ),
       compression = require( 'compression' ),
       favicon = require( 'serve-favicon' ),
