@@ -30,6 +30,8 @@ export default class Canvas extends React.Component {
     this.interval = null
     this.canvasRef = React.createRef()
     this.currentLineWidth = STROKE_WIDTH
+    this.width = 630
+    this.height = 630
 
     this.state = {
       id: null,
@@ -135,7 +137,7 @@ export default class Canvas extends React.Component {
     const { id, isPrivate, creationDateTime, elapsedTime, history } = this.state,
           { user } = this.props,
           canvas = this.canvasRef.current,
-          thumbnail = Canvas2Image.convertToJPEG( canvas, 80, 60 )
+          thumbnail = Canvas2Image.convertToJPEG( canvas, 90, 90 )
 
     this.props.saveDrawing( {
       id,
@@ -169,8 +171,6 @@ export default class Canvas extends React.Component {
   }
 
   render () {
-    const width = 500,
-          height = 500
   
     return (
       <div className="canvas">
@@ -187,7 +187,7 @@ export default class Canvas extends React.Component {
         </div>
 
         <div className="wrapper">
-          <canvas className="drawing-canvas" width={ width } height={ height } ref={ this.canvasRef }> 
+          <canvas className="drawing-canvas" width={ this.width } height={ this.height } ref={ this.canvasRef }> 
           We're sorry, the browser you are using does not support glt;canvas&gt;. Please upgrade your browser. 
             { /* Anything inside of the canvas tag will only display if the browser does not support the <canvas> tag. */ }
           </canvas>
@@ -204,7 +204,6 @@ export default class Canvas extends React.Component {
               <img src="/images/pink.png" alt="pink" onClick={ onColor.bind( this, '#ff00d2' ) } /> 
               <img src="/images/eraser.png" alt="eraser" onClick={ this.changeToEraser } /> 
             </div>
-
 
             <div className="stroke-weight">
               <img src="/images/stroke1.png" alt="1.0" onClick={ onWidth.bind( this, 1.0 ) } />
