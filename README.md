@@ -13,8 +13,6 @@ Please type 'npm run dev'
 For Production:
 --------------
 
-*** Notice: It seems like there is a problem with the Canvas2Image library.  It doesn't work well with my Server Side Rendering architecture. Needs to find a better library, until then no production available.
-
 Please first 'npm run dist', then copy /assets, /dist, /server folders and /appDB.json and /package.json files to the production server.
 
 Then type 'npm install --production' to install all the dependencies.
