@@ -169,8 +169,8 @@ export default class Canvas extends React.Component {
   }
 
   render () {
-    const width = 800,
-          height = 600
+    const width = 500,
+          height = 500
   
     return (
       <div className="canvas">

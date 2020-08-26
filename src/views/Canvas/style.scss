@@ -7,7 +7,7 @@
     .wrapper {
         display: flex;
         justify-content: space-between;
-        flex-wrap: wrap;
+        // flex-wrap: wrap;
     }
 
     .drawing-canvas {
@@ -16,41 +16,31 @@
         overflow: hidden;
         background-color:black;
         width: 90%;
+        // min-width: 1000px;
     }
 
     .toolbox {
         width: 5%;
         text-align: right;
         min-width: 50px;
+
+        > div {
+            border: 1px solid darkgrey;
+            padding: 5px;
+            text-align: center;
+            img {
+                width: 32px;
+                height: 32px;
+            }    
+        }
     }
 
     .stroke-color {
-        border: 1px solid darkgrey;
-        padding: 5px;
-        text-align: center;
-        img {
-            width: 32px;
-            height: 32px;
-        }
     }
 
     .stroke-weight {
-        border: 1px solid darkgrey;
-        padding: 5px;
-        text-align: center;
-        img {
-            width: 32px;
-            height: 32px;
-        }
     }
 
     .operations {
-        border: 1px solid darkgrey;
-        padding: 5px;
-        text-align: center;
-        img {
-            width: 32px;
-            height: 32px;
-        }
     }
 }

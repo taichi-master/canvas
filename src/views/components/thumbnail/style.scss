@@ -1,5 +1,8 @@
 .thumbnail {
-    flex:1 1 auto;
+    // flex: 1 1 auto;
+    margin: 5px;
+    float: left;
+
 
     &__frame {
         border: 3px solid rgba(255, 255, 255,.3);

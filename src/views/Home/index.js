@@ -47,7 +47,9 @@ export default class Home extends React.Component {
               : drawings.map( ( drawing, i ) => <Thumbnail drawing={ drawing } currentUserId={ userId } key={ i } /> )
           }
         </div>
+        <div className="clear"></div>
       </div>
+
     )
   }
 }
