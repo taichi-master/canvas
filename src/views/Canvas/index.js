@@ -176,72 +176,50 @@ export default class Canvas extends React.Component {
       <div className="canvas">
         <h1>Canvas</h1>
 
-        <div>Creation date &amp; time: <span>{ this.state.creationDateTime && this.state.creationDateTime.toLocaleString() }</span></div>
-        <div><label><input type="checkbox" checked={ this.state.isPrivate } onChange={ this.togglePrivate } /> Private</label></div>
-        <div>Elapsed time: <span>{ this.state.elapsedTime }</span> sec.</div>
+        <div className="drawing-info">
+          <div>Creation date &amp; time: <span>{ this.state.creationDateTime && this.state.creationDateTime.toLocaleString() }</span></div>
+          <div><label><input type="checkbox" checked={ this.state.isPrivate } onChange={ this.togglePrivate } /> Private</label></div>
+          <div>Elapsed time: <span>{ this.state.elapsedTime }</span> sec.</div>
 
-        {
-          this.state.loading && <Loading />
-        }
-        
-        <canvas id="drawingCanvas" width={ width } height={ height } ref={ this.canvasRef }> 
+          {
+            this.state.loading && <Loading />
+          }
+        </div>
+
+        <div className="wrapper">
+          <canvas className="drawing-canvas" width={ width } height={ height } ref={ this.canvasRef }> 
           We're sorry, the browser you are using does not support glt;canvas&gt;. Please upgrade your browser. 
-          { /* Anything inside of the canvas tag will only display if the browser does not support the <canvas> tag. */ }
-        </canvas>
+            { /* Anything inside of the canvas tag will only display if the browser does not support the <canvas> tag. */ }
+          </canvas>
 
-        <div className="toolbox">
+          <div className="toolbox">
 
-          { /* Stroke color */ }
-          <div id="stroke-color">
-            <div id="whiteChalk_button"> 
-              <img src="/images/white.png" width="71" height="17" onClick={ onColor.bind( this, '#FFFFFF' ) } /> 
-            </div> 
-            <div id="redChalk_button"> 
-              <img src="/images/red.png" width="71" height="17" onClick={ onColor.bind( this, '#F00000' ) } /> 
-            </div> 
-            <div id="orangeChalk_button"> 
-              <img src="/images/orange.png" width="71" height="17" onClick={ onColor.bind( this, '#ff9600' ) } /> 
-            </div> 
-            <div id="yellowChalk_button"> 
-              <img src="/images/yellow.png" width="71" height="17" onClick={ onColor.bind( this, '#fff600' ) } /> 
-            </div> 
-            <div id="greenChalk_button"> 
-              <img src="/images/green.png" width="71" height="17" onClick={ onColor.bind( this, '#48ff00' ) } /> 
-            </div> 
-            <div id="blueChalk_button"> 
-              <img src="/images/blue.png" width="71" height="17" onClick={ onColor.bind( this, '#001eff' ) } /> 
-            </div> 
-            <div id="pinkChalk_button"> 
-              <img src="/images/pink.png" width="71" height="17" onClick={ onColor.bind( this, '#ff00d2' ) } /> 
+            <div className="stroke-color">
+              <img src="/images/white.png" alt="white" onClick={ onColor.bind( this, '#FFFFFF' ) } /> 
+              <img src="/images/red.png" alt="red" onClick={ onColor.bind( this, '#F00000' ) } /> 
+              <img src="/images/orange.png" alt="orange" onClick={ onColor.bind( this, '#ff9600' ) } /> 
+              <img src="/images/yellow.png" alt="yellow" onClick={ onColor.bind( this, '#fff600' ) } /> 
+              <img src="/images/green.png" alt="green" onClick={ onColor.bind( this, '#48ff00' ) } /> 
+              <img src="/images/blue.png" alt="blue" onClick={ onColor.bind( this, '#001eff' ) } /> 
+              <img src="/images/pink.png" alt="pink" onClick={ onColor.bind( this, '#ff00d2' ) } /> 
+              <img src="/images/eraser.png" alt="eraser" onClick={ this.changeToEraser } /> 
             </div>
-            <div id="eraser">
-              <img src="/images/eraser.png" width="71" height="17" onClick={ this.changeToEraser } /> 
+
+
+            <div className="stroke-weight">
+              <img src="/images/stroke1.png" alt="1.0" onClick={ onWidth.bind( this, 1.0 ) } />
+              <img src="/images/stroke2.png" alt="6.0" onClick={ onWidth.bind( this, 6.0 ) } />
+              <img src="/images/stroke3.png" alt="9.0" onClick={ onWidth.bind( this, 9.0 ) } />
+              <img src="/images/stroke4.png" alt="13.0" onClick={ onWidth.bind( this, 13.0 ) } />
             </div>
-          </div>
 
+            <div className="operations">
+              <img src="/images/save.png" alt="Save" onClick={ this.save } /> 
+              {
+                this.state.id && <img src="/images/cross.png" alt="Delete" onClick={ this.delete } /> 
+              }
+            </div>
 
-          { /* Stroke Weight Panel */ }
-          <div id="stroke-weight">
-            <img src="/images/stroke1.png" alt="1.0" className="stroke" width="30" height="32"
-              onClick={ onWidth.bind( this, 1.0 ) } />
-            <img src="/images/stroke2.png" alt="6.0" className="stroke" width="30" height="32"
-              onClick={ onWidth.bind( this, 6.0 ) } />
-            <img src="/images/stroke3.png" alt="9.0" className="stroke" width="30" height="32"
-              onClick={ onWidth.bind( this, 9.0 ) } />
-            <img src="/images/stroke4.png" alt="13.0" className="stroke" width="30" height="32"
-              onClick={ onWidth.bind( this, 13.0 ) } />
-          </div>
-
-          { /* Brushes */ }
-          <div id="stroke-brushes">
-          </div>
-
-          { /* Functions */ }
-          <div id="functions">
-            <img src="/images/save.png" width="32" height="32" alt="Save" onClick={ this.save } /> 
-            {
-              this.state.id && <img src="/images/cross.png" width="32" height="32" alt="Delete" onClick={ this.delete } /> 
-            }
           </div>
 
         </div>

@@ -1,48 +1,56 @@
 .canvas {
-}
 
-#drawingCanvas {
-    // position:absolute;
-    border: none;
-    color: #fff;
-    overflow: hidden;
-    // background-color: transparent;
-    background-color:black;
-}
-#tempCanvas {
-    position: absolute;
-    width: 897px;
-    height: 532px;
-    overflow: hidden;
-}
+    .drawing-info {
 
-.noscript {
-    padding: 50px 30px 0 40px;
-    width: 820px;
-}
-#selector {
-    //  position:absolute;
-    z-index: 99999;
-    margin-top: -30px;
-}
-select {
-    font-family: Verdana, Geneva, sans-serif;
-    font-size: 12px;
-    background-color: #eaeaea;
-}
+    }
 
-#stroke-weight {
-    background: darkgrey;
-    width: 44px;
-    height: 165px;
-    // position: absolute;
-    // top: 456px;
-    // left: -18px;
-    z-index: 1;
-    padding: 8px 0 0 7px;
-}
+    .wrapper {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
 
-.stroke {
-    cursor: pointer;
-    margin-bottom: 3px;
+    .drawing-canvas {
+        border: none;
+        color: #fff;
+        overflow: hidden;
+        background-color:black;
+        width: 90%;
+    }
+
+    .toolbox {
+        width: 5%;
+        text-align: right;
+        min-width: 50px;
+    }
+
+    .stroke-color {
+        border: 1px solid darkgrey;
+        padding: 5px;
+        text-align: center;
+        img {
+            width: 32px;
+            height: 32px;
+        }
+    }
+
+    .stroke-weight {
+        border: 1px solid darkgrey;
+        padding: 5px;
+        text-align: center;
+        img {
+            width: 32px;
+            height: 32px;
+        }
+    }
+
+    .operations {
+        border: 1px solid darkgrey;
+        padding: 5px;
+        text-align: center;
+        img {
+            width: 32px;
+            height: 32px;
+        }
+    }
 }
